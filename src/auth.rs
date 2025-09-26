@@ -107,7 +107,7 @@ pub async fn post_login(
     Ok(Response::from_parts(parts, body))
 }
 
-pub async fn logout(Extension(_pool): Extension<sqlx::PgPool>) -> Result<Response, String> {
+pub async fn logout() -> Result<Response, String> {
     let mut headers = HeaderMap::new();
     let cookie_value = "PHPSESSID=; HttpOnly; Secure; SameSite=Strict; Max-Age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT";
     headers.insert("Set-Cookie", HeaderValue::from_str(&cookie_value).unwrap());

@@ -1,4 +1,4 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Debug)]
 pub(crate) struct SignUp {
@@ -34,4 +34,9 @@ pub(crate) struct UserLinkCreate {
 #[derive(Deserialize, Debug)]
 pub(crate) struct LinkRedirect {
     pub(crate) destination_url: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub(crate) struct AuthedUser {
+    pub(crate) user_id: i32,
 }

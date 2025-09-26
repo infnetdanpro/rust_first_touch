@@ -1,3 +1,4 @@
+use crate::models::AuthedUser;
 use axum::Extension;
 use axum::extract::Request;
 use axum::http::{HeaderMap, StatusCode};
@@ -20,7 +21,10 @@ pub async fn auth_middleware(
     }
 }
 
-fn extract_user_id(headers: &HeaderMap, signing_key: &SigningKey) -> Result<i32, StatusCode> {
+fn extract_user_id(
+    headers: &HeaderMap,
+    signing_key: &SigningKey,
+) -> Result<AuthedUser, StatusCode> {
     if let Some(cookie_headers) = headers.get("cookie") {
         let cookie_headers = cookie_headers
             .to_str()
@@ -38,7 +42,8 @@ fn extract_user_id(headers: &HeaderMap, signing_key: &SigningKey) -> Result<i32,
                         .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
 
                     let user_id = i32::from_le_bytes(arr);
-                    return Ok(user_id);
+                    let user = AuthedUser { user_id };
+                    return Ok(user);
                 }
             }
         }
