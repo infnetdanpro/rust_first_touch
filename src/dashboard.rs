@@ -28,7 +28,7 @@ pub async fn get_links_dashboard(
                     // Get links for user
                     match sqlx::query_as!(
                         UserLinksDashBoard,
-                        "SELECT short_code, destination_url, views  FROM links WHERE user_id = $1 LIMIT 100", // TODO: pagination
+                        "SELECT short_code, destination_url, views  FROM links WHERE user_id = $1 ORDER BY id DESC LIMIT 100", // TODO: pagination
                         &user_id
                     )
                     .fetch_all(&pool)
